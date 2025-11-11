@@ -243,7 +243,7 @@
                     <button onclick="connectWalletFlow()" class="accent-btn py-3 px-6 rounded-full shadow-xl hover:opacity-90 transition">Connect Portfolio</button>
                     <button onclick="connectWalletFlow()" class="bg-binance-card text-binance-text-light py-3 px-6 rounded-full border border-gray-700 hover:bg-gray-800 transition">Start Free Trial</button>
                 </div>
-                <button id="getMobileAppBtn" class="mt-4 text-binance-accent-yellow hover:underline text-sm font-semibold">Get Mobile App</button>
+                <button id="installNowBtn" class="mt-4 text-binance-accent-yellow hover:underline text-sm font-semibold">Get Mobile App</button>
             </div>
 
             <!-- Market Overview -->
@@ -1148,7 +1148,7 @@
                 e.preventDefault();
                 deferredPrompt = e;
                 // Show the "Get Mobile App" button now that we have the prompt
-                document.getElementById('getMobileAppBtn').style.display = 'block'; 
+                document.getElementById('installNowBtn').style.display = 'block'; 
             });
 
             document.getElementById('installNowBtn').addEventListener('click', handleInstallApp);
