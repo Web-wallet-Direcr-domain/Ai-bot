@@ -1144,45 +1144,68 @@
             const manifestUrl = URL.createObjectURL(manifestBlob);
             document.getElementById('pwa-manifest-link').href = manifestUrl;
 
-            // 4.3. Install Prompt Logic
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                // Show the "Get Mobile App" button now that we have the prompt
-                 
-          document.getElementById('getMobileAppBtn').style.display = 'block';
-          document.getElementById('getMobileAppBtn').onclick = function() {
-          document.getElementById('installPromptContainer').style.display = 'block';
-         });
+            
+// 4.3. Install Prompt Logic
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault(); // Prevent automatic prompt
+    deferredPrompt = e;
 
-            document.getElementById('installNowBtn').addEventListener('click', handleInstallApp);
-            document.getElementById('maybeLaterBtn').addEventListener('click', () => {
-                document.getElementById('installPromptContainer').classList.add('hidden');
-            });
-        }
-        
-        function showInstallPromptUI() {
-            if (deferredPrompt) {
-                document.getElementById('installPromptContainer').classList.remove('hidden');
+    // Safely show the "Get Mobile App" button if it exists
+    const getAppBtn = document.getElementById('getMobileAppBtn');
+    if (getAppBtn) {
+        getAppBtn.style.display = 'block';
+
+        getAppBtn.onclick = () => {
+            const promptContainer = document.getElementById('installPromptContainer');
+            if (promptContainer) {
+                promptContainer.style.display = 'block'; // Show the prompt
+            }
+        };
+    }
+
+    // Optional: handle install now button
+    const installNowBtn = document.getElementById('installNowBtn');
+    if (installNowBtn) {
+        installNowBtn.addEventListener('click', handleInstallApp);
+    }
+
+    // Optional: handle maybe later button
+    const maybeLaterBtn = document.getElementById('maybeLaterBtn');
+    if (maybeLaterBtn) {
+        maybeLaterBtn.addEventListener('click', () => {
+            const promptContainer = document.getElementById('installPromptContainer');
+            if (promptContainer) promptContainer.style.display = 'none';
+        });
+    }
+});
+
+// Show install prompt UI manually
+function showInstallPromptUI() {
+    const promptContainer = document.getElementById('installPromptContainer');
+    if (deferredPrompt && promptContainer) {
+        promptContainer.style.display = 'block';
+    } else {
+        showMessage("The app is already installed or your browser doesn't support installation.", 'info');
+    }
+}
+
+// Handle "Install App" button click
+function handleInstallApp() {
+    const promptContainer = document.getElementById('installPromptContainer');
+    if (promptContainer) promptContainer.style.display = 'none';
+
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                showMessage('App installed successfully!', 'success');
             } else {
-                showMessage("The app is already installed or your browser doesn't support installation.", 'info');
+                showMessage('Installation cancelled.', 'info');
             }
-        }
-
-        function handleInstallApp() {
-            document.getElementById('installPromptContainer').classList.add('hidden');
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        showMessage('App installed successfully!', 'success');
-                    } else {
-                        showMessage('Installation cancelled.', 'info');
-                    }
-                    deferredPrompt = null;
-                });
-            }
-        }
+            deferredPrompt = null;
+        });
+    }
+  }
 
         // =======================================================
         // 5. AUTHENTICATION & WALLET CONNECT LOGIC
