@@ -241,10 +241,10 @@
                 <p class="text-binance-text-muted mt-4 max-w-lg mx-auto">Harness the power of AI for seamless, high-frequency blockchain trading. Connect your portfolio to start maximizing your returns automatically.</p>
                 <div class="flex justify-center gap-4 mt-6">
                     <button onclick="connectWalletFlow()" class="accent-btn py-3 px-6 rounded-full shadow-xl hover:opacity-90 transition">Connect Portfolio</button>
-                    <button onclick="connectWalletFlow()" class="bg-binance-card text-binance-text-light py-3 px-6 rounded-full border border-gray-700 hover:bg-gray-800 transition">Start Free Trial</button>
+                    <button onclick="connectWalletFlow()" class="bg-binance-card text-binance-text-light py-3 px-6 rounded-full border border-gray-700 hover:bg-gray-800 transition">Start Free </button>
                 </div>
-                <button id="showInstallButton" class="mt-4 text-binance-accent-yellow hover:underline text-sm font-semibold">
-                 Get Mobile App
+                <button id="getMobileAppBtn" class="mt-4 text-binance-accent-yellow hover:underline text-sm font-semibold">
+                Get Mobile App
                 </button>
 
             <!-- Market Overview -->
@@ -1151,9 +1151,9 @@
                 // Show the "Get Mobile App" button now that we have the prompt
                  
           document.getElementById('getMobileAppBtn').style.display = 'block';
-         document.getElementById("showInstallButton").onclick = function() {
-          document.getElementById("installPromptContainer").style.display = "block";
-             };
+          document.getElementById('getMobileAppBtn').onclick = function() {
+          document.getElementById('installPromptContainer').style.display = 'block';
+         });
 
             document.getElementById('installNowBtn').addEventListener('click', handleInstallApp);
             document.getElementById('maybeLaterBtn').addEventListener('click', () => {
